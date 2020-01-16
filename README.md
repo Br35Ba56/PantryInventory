@@ -1,2 +1,2 @@
 # PantryInventory
-CMSC495 Final Project
+CMSC495 Final Project - Django source code.
