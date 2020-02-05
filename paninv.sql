@@ -27,6 +27,7 @@ CREATE TABLE `api_item` (
   `name` varchar(100) NOT NULL,
   `quantity` int(11) NOT NULL,
   `acquisition_date` date NOT NULL,
+  `expiration_date` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -37,7 +38,7 @@ CREATE TABLE `api_item` (
 
 LOCK TABLES `api_item` WRITE;
 /*!40000 ALTER TABLE `api_item` DISABLE KEYS */;
-INSERT INTO `api_item` VALUES (5,'Green Beans',3,'2020-02-05'),(6,'Stuffing',2,'2020-02-05'),(11,'Ground Beef',2,'2020-02-01');
+INSERT INTO `api_item` VALUES (5,'Green Beans',3,'02/05/2020', '02/05/2025'),(6,'Stuffing',2,'02/05/2020', '02/05/2025'),(11,'Ground Beef',2,'02/05/2020', '02/15/2020');
 /*!40000 ALTER TABLE `api_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
