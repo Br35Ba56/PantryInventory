@@ -1,0 +1,2 @@
+DROP DATABASE paninv;
+CREATE DATABASE paninv;

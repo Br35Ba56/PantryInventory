@@ -7,10 +7,13 @@ from django.db import models
 #class Pantry(models.Model):
 #    pass
 
+
+
 class Item(models.Model):
-    name=models.CharField(max_length=100)
-    quantity=models.IntegerField()
-    acquisition_date=models.DateField(auto_now=False)
+    name = models.CharField(max_length=100)
+    #quantity = models.IntegerField()
+    acquisition_date = models.DateField(auto_now=False)
+    expiration_date = models.DateField()
 
     def __str__(self):
-        return self.name + ' ' + str(self.quantity) + ' ' + str(self.acquisition_date)
+        return self.name + ' ' + str(self.acquisition_date)
