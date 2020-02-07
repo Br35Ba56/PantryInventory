@@ -35,8 +35,8 @@ class ItemQuantity(APIView):
     def get(self, request):
         if request.GET.get('name'):
            items = Item.objects.filter(name=request.GET.get('name'))
-           return Response({'quantity': len(items)})
+           return Response({'name':request.GET.get('name'),'quantity': len(items)})
         else:
             items = Item.objects.all()
-            return Response({'quantity': len(items)})
+            return Response({'name': 'All Items', 'quantity': len(items)})
     
