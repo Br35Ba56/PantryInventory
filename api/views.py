@@ -29,3 +29,14 @@ class ItemList(APIView):
             return Response(serializer.data)
         else:
             return Response({'error' : 'Name cannot be empty'})
+
+class ItemQuantity(APIView):
+    
+    def get(self, request):
+        if request.GET.get('name'):
+           items = Item.objects.filter(name=request.GET.get('name'))
+           return Response({'quantity': len(items)})
+        else:
+            items = Item.objects.all()
+            return Response({'quantity': len(items)})
+    
