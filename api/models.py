@@ -1,17 +1,13 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
-#class User(models.Model):
-#    username=mdoels.CharField(max_length=10)
 
-#class Pantry(models.Model):
-#    pass
 
 
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
-    #quantity = models.IntegerField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     acquisition_date = models.DateField(auto_now=False)
     expiration_date = models.DateField()
 

@@ -22,5 +22,4 @@ from api import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('item', views.ItemList.as_view()),
-    path('item/quantity', views.ItemQuantity.as_view())
 ]
