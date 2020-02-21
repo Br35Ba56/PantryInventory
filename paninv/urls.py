@@ -18,8 +18,10 @@ from django.urls import path
 from django.urls import re_path
 from rest_framework.urlpatterns import format_suffix_patterns
 from api import views
+from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('item', views.ItemList.as_view()),
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider'))
 ]

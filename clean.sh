@@ -1,9 +1,8 @@
 #!/bin/bash
 
-find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
-find . -path "*/migrations/*.pyc"  -delete
-
-mysql -u foo -pbar < clean_db.sql
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
+if [[ -f /vagrant/PantryInventory/PanInv-sqlite ]]
+then
+    rm -f /vagrant/PantryInventory/PanInv-sqlite
+fi
+cd /vagrant/PantryInventory/ && python manage.py makemigrations && python manage.py migrate
+echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('root', 'admin@myproject.com', 'root')" | python /vagrant/PantryInventory/manage.py shell

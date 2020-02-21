@@ -10,16 +10,14 @@ from . models import Item
 from . serializers import ItemSerializer
 from . serializers import UserSerializer
 from django.contrib.auth.models import User
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics, permissions, serializers
+from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
 
 # Create your views here.
 
 class ItemList(APIView):
 
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
-
+    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
 
     def get(self, request):
         user_id = request.user.id
