@@ -1,9 +1,6 @@
-
-import requests
-import json 
-
-
-url = "http://127.0.0.7:8000/item"
+from api.models import Item
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 objects = [
     {
@@ -28,25 +25,16 @@ objects = [
         "name": "Bacon",
         "quantity_with_unit": "2 lb",
         "acquisition_date": "2020-02-22",
-        "expiration_date": "2020-02-29",
+        "expiration_date": "2020-02-29"
     },
     {
         "name": "Bacon",
         "quantity_with_unit": "2 lb",
         "acquisition_date": "2020-02-22",
-        "expiration_date": "2020-02-29",
+        "expiration_date": "2020-02-29"
     }
 ]
 
-
-headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json',
-  'Authorization': 'Bearer dTZexYz1HZiIVsKAkcE1xicv0EjZtd'#UPDATE WITH POSTMAN VALUE
-}
-
+user = authenticate(username='root', password='root')
 for object_ in objects:
-    response = requests.request("POST", url, headers=headers, data=json.dumps(object_))
-    print(response.text.encode('utf8'))
-
-
+    Item(name=object_['name'], quantity_with_unit=object_['quantity_with_unit'], acquisition_date=object_['acquisition_date'], expiration_date=object_['expiration_date'], user_id=user).save()
