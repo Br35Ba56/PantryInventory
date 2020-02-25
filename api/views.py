@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -60,5 +60,12 @@ class ItemList(APIView):
         else:
             return Response({'error' : 'Name cannot be empty'})
 
+    def delete(self, request):
+        item_id = request.data['id']
+        item = get_object_or_404(Item, pk=item_id)
+        if request.user.id == item.user_id:
+            item.delete()
+            return Response({"item deleted": "true", "id" : item_id})
+        else:
+            return HttpResponseForbidden({"error": "User does not own this item"})
 
-    

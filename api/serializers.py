@@ -6,11 +6,12 @@ from django.contrib.auth.models import Group
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    
+    
     class Meta:
         model = Item
-        #fields = ('name', 'user', 'acquisition_date', 'expiration_date')
+        #fields = ('id', 'name', 'quantity_with_unit', 'acquisition_date', 'expiration_date')
         fields = '__all__'
-
 
 class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(validators=[UniqueValidator(queryset=User.objects.all())])
