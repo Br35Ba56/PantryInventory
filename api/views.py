@@ -63,7 +63,8 @@ class ItemList(APIView):
     def delete(self, request):
         item_id = request.data['id']
         item = get_object_or_404(Item, pk=item_id)
-        if request.user.id == item.user_id:
+        print(item.user_id.id, request.user.id)
+        if request.user.id == item.user_id.id:
             item.delete()
             return Response({"item deleted": "true", "id" : item_id})
         else:
