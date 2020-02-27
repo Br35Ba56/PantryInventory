@@ -17,8 +17,8 @@ class Command(BaseCommand):
             new_user = User.objects.create(username=fake.first_name()+fake.last_name(), password=fake.word(ext_word_list=None)+fake.word(ext_word_list=None))
             my_group.user_set.add(new_user)
             for _ in range(0,10):
-                Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date(pattern='%Y-%m-%d', end_datetime=None), expiration_date=fake.date_between(start_date='today', end_date='+1d').strftime("%Y-%m-%d"))
+                Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='today', end_date='+1d').strftime("%Y-%m-%d"))
             for _ in range(0,10):
-                Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date(pattern='%Y-%m-%d', end_datetime=None), expiration_date=fake.date_between(start_date='+1d', end_date='+7d').strftime("%Y-%m-%d"))
+                Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-7d', end_date='-1d').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='+1d', end_date='+7d').strftime("%Y-%m-%d"))
             for _ in range(0,10):
-                Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date(pattern='%Y-%m-%d', end_datetime=None), expiration_date=fake.date_between(start_date='+7d', end_date='+1y').strftime("%Y-%m-%d"))
+                Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-1d', end_date='today').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='+7d', end_date='+1y').strftime("%Y-%m-%d"))
