@@ -35,13 +35,10 @@ class ItemList(APIView):
 
     def get(self, request):
         user_id = request.user.id
-        
         if request.GET.get('name'):
-           items = Item.objects.filter(name=request.GET.get('name'), user_id=user_id)
-           print('Quanity ' + str(len(items)))
+            items = Item.objects.filter(name__contains=request.GET.get('name'), user_id=user_id)
         else:
             items = Item.objects.filter(user_id=user_id)
-            print('Quanity ' + str(len(items)))
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data)
 
@@ -50,8 +47,6 @@ class ItemList(APIView):
         if len(request.data['name']) > 0 :
             request.data['user_id'] = request.user.id
             serializer = ItemSerializer(data=request.data)
-            
-            print(serializer.is_valid())
             if serializer.is_valid():
                 serializer.save()
             else:
@@ -60,13 +55,16 @@ class ItemList(APIView):
         else:
             return Response({'error' : 'Name cannot be empty'})
 
+
     def delete(self, request):
         item_id = request.data['id']
         item = get_object_or_404(Item, pk=item_id)
-        print(item.user_id.id, request.user.id)
         if request.user.id == item.user_id.id:
             item.delete()
             return Response({"item deleted": "true", "id" : item_id})
         else:
             return HttpResponseForbidden({"error": "User does not own this item"})
 
+
+    def update(self, request):
+        item = ItemSerializer(data=request.data)
