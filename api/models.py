@@ -8,7 +8,7 @@ class Item(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity_with_unit = models.CharField(max_length=100, null=True, blank=True)
     acquisition_date = models.DateField(null=False, blank=False)
-    expiration_date = models.DateField(auto_now=False)
+    expiration_date = models.DateField(null=False, blank=False)
 
     def __str__(self):
         return self.name + ' ' + str(self.acquisition_date)
