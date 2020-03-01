@@ -56,12 +56,11 @@ class ItemList(APIView):
             return Response({'error' : 'Name cannot be empty'})
 
 
-    def delete(self, request):
-        item_id = request.data['id']
-        item = get_object_or_404(Item, pk=item_id)
+    def delete(self, request, id):
+        item = get_object_or_404(Item, pk=id)
         if request.user.id == item.user_id.id:
             item.delete()
-            return Response({"item deleted": "true", "id" : item_id})
+            return Response({"item deleted": "true", "id" : id})
         else:
             return HttpResponseForbidden({"error": "User does not own this item"})
 

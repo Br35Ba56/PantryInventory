@@ -23,6 +23,8 @@ from django.urls import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('item', views.ItemList.as_view()),
+    path('item/<int:id>/', views.ItemList.as_view(), name='delete'),
+    
     path('register/', views.CreateUser.as_view()),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider'))
 ]
