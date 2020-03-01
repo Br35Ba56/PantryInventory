@@ -1,3 +1,5 @@
+import csv
+
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
@@ -13,12 +15,17 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
         my_group = Group.objects.get(name='api_user_group')
-        for _ in range(0,10):
-            new_user = User.objects.create(username=fake.first_name()+fake.last_name(), password=fake.word(ext_word_list=None)+fake.word(ext_word_list=None))
-            my_group.user_set.add(new_user)
-            for _ in range(0,10):
-                Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='today', end_date='+1d').strftime("%Y-%m-%d"))
-            for _ in range(0,10):
-                Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-7d', end_date='-1d').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='+1d', end_date='+7d').strftime("%Y-%m-%d"))
-            for _ in range(0,10):
-                Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-1d', end_date='today').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='+7d', end_date='+1y').strftime("%Y-%m-%d"))
+        with open('users.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            for _ in range(0,15):
+                tempname=fake.first_name()+fake.last_name()
+                temppass=fake.word(ext_word_list=None)+fake.word(ext_word_list=None)
+                new_user = User.objects.create(username=tempname, password=temppass)
+                my_group.user_set.add(new_user)
+                writer.writerow([tempname, temppass])
+                for _ in range(0,500):
+                    Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='today', end_date='+1d').strftime("%Y-%m-%d"))
+                for _ in range(0,500):
+                    Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-7d', end_date='-1d').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='+1d', end_date='+7d').strftime("%Y-%m-%d"))
+                for _ in range(0,500):
+                    Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-1d', end_date='today').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='+7d', end_date='+1y').strftime("%Y-%m-%d"))
