@@ -48,7 +48,7 @@ class ItemList(APIView):
             request.data['user_id'] = request.user.id
             serializer = ItemSerializer(data=request.data)
             if serializer.is_valid():
-                serializer.save()
+                return Response(ItemSerializer(self.update_or_save(serializer.validated_data)).data)
             else:
                 return Response({'error' : 'Could not serialize'}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.data)
@@ -66,5 +66,25 @@ class ItemList(APIView):
             return HttpResponseForbidden({"error": "User does not own this item"})
 
 
-    def update(self, request):
-        item = ItemSerializer(data=request.data)
+    def update_or_save(self, validated_data):
+        if 'id' in validated_data:
+            try:
+                item = Item.objects.get(pk=validated_data.get('id'))
+                item.delete()
+                return Item.objects.create(id=validated_data.get('id'),
+                                    name = validated_data.get('name'),
+                                    quantity_with_unit = validated_data.get('quantity_with_unit'),
+                                    acquisition_date = validated_data.get('acquisition_date'),
+                                    expiration_date = validated_data.get('expiration_date'),
+                                    user_id = validated_data.get('user_id'))
+            except:
+                print('no item exists')
+        
+        else:
+            return Item.objects.create(name = validated_data.get('name'),
+                                quantity_with_unit = validated_data.get('quantity_with_unit'),
+                                acquisition_date = validated_data.get('acquisition_date'),
+                                expiration_date = validated_data.get('expiration_date'),
+                                user_id = validated_data.get('user_id'))
+        return None
+        
