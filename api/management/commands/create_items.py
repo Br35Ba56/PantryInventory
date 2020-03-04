@@ -20,8 +20,10 @@ class Command(BaseCommand):
             for _ in range(0,15):
                 tempname=fake.first_name()+fake.last_name()
                 temppass=fake.word(ext_word_list=None)+fake.word(ext_word_list=None)
-                new_user = User.objects.create(username=tempname, password=temppass)
+                new_user = User.objects.create(username=tempname)
+                new_user.set_password(temppass)
                 my_group.user_set.add(new_user)
+                new_user.save()
                 writer.writerow([tempname, temppass])
                 for _ in range(0,500):
                     Item.objects.create(name=fake.word(ext_word_list=FOOD), user_id=new_user, quantity_with_unit=fake.word(ext_word_list=QUANTITYUNIT), acquisition_date=fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"), expiration_date=fake.date_between(start_date='today', end_date='+1d').strftime("%Y-%m-%d"))
