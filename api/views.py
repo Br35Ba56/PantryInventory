@@ -15,6 +15,7 @@ from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, Token
 
 # Create your views here.
 class CreateUser(APIView):
+    permission_classes = [TokenHasReadWriteScope]
     """ 
     Creates the user. 
     """
