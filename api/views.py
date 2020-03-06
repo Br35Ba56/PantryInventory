@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+import copy
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
@@ -46,8 +46,9 @@ class ItemList(APIView):
 
     def post(self, request):
         if len(request.data['name']) > 0 :
-            request.data['user_id'] = request.user.id
-            serializer = ItemSerializer(data=request.data)
+            data = copy.deepcopy(request.data)
+            data['user_id'] = request.user.id
+            serializer = ItemSerializer(data=data)
             if serializer.is_valid():
                 return Response(ItemSerializer(self.update_or_save(serializer.validated_data)).data)
             else:
